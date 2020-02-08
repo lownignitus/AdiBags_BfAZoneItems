@@ -63,35 +63,41 @@ function setFilter:GetOptions()
           type = 'toggle',
           order = 27,
         },
+        groupBlack = {
+          name = L['Black Empire BoA Items'],
+          desc = L['Group Black Empire Bind on Account gear tokens seperately.'],
+          type = 'toggle',
+          order = 28,
+        },
         groupRepItems = {
           name = L['Reputation Items'],
           desc = L['Group Reputation on-use and repeatable turn-in items seperately.'],
           type = 'toggle',
-          order = 28,
+          order = 29,
         },
         groupEssences = {
           name = L['Heart Essences'],
           desc = L['Group Heart of Azeroth essences seperately.'],
           type = 'toggle',
-          order = 29,
+          order = 30,
         },
         groupPatch8_3 = {
           name = L['Patch 8.3 Items'],
           desc = L['Group items added in Patch 8.3 for Uldum, Horrific Visions, and Vale of Eternal Blossoms. They really should leave that poor Vale alone.'],
           type = 'toggle',
-          order = 30,
+          order = 31,
         },
         groupVisions = {
           name = L['Visions'],
           desc = L['Group items for Visions.'],
           type = 'toggle',
-          order = 31,
+          order = 32,
         },
         zonePriority = {
           name = L['Current Zone First'],
           desc = L['Group current zone\'s items first in bags.'],
           type = 'toggle',
-          order = 32,
+          order = 33,
         },
       }
     },
@@ -102,19 +108,19 @@ end
 function setFilter:Filter(slotData)
   local currZoneName = GetRealZoneText()
   if self.db.profile.groupEssences then
-    addon:SetCategoryOrder('Essence',28)
+    addon:SetCategoryOrder('Essence',29)
   end
   if self.db.profile.groupRepItems then
-    addon:SetCategoryOrder('Current Rep Item',29)
+    addon:SetCategoryOrder('Current Rep Item',30)
   end
   if self.db.profile.groupPatch8_3 then
-    addon:SetCategoryOrder('Patch 8.3',30)
+    addon:SetCategoryOrder('Patch 8.3',31)
   end
   if self.db.profile.groupVisions then
-    addon:SetCategoryOrder('Visions',31)
+    addon:SetCategoryOrder('Visions',32)
   end
   if self.db.profile.zonePriority then
-    addon:SetCategoryOrder('Current Zone Item',32)
+    addon:SetCategoryOrder('Current Zone Item',33)
   end
     -- Exit if profile not enabled
   if (self.db.profile.enableZoneItem == false) or (slotData.itemId == false) then 
@@ -145,18 +151,24 @@ function setFilter:Filter(slotData)
       ziName = currSubset[4]
       if bagItemID == ziID then
         --check Benthic
-        if ziZone == 'BfA' and ziSubcat == 'Benthic' and  (self.db.profile.groupBenthic) then
-          currSubCategory = 'Benthic'
-          return kPfx .. currSubCategory.. kSfx, kCategory
+        if ziZone == 'BfA' then
+          if ziSubcat == 'Benthic' and  (self.db.profile.groupBenthic) then
+            currSubCategory = 'Benthic'
+            return kPfx .. currSubCategory.. kSfx, kCategory
+          elseif ziSubcat == 'Essence' and (self.db.profile.groupEssences) then
+            currSubCategory = 'Heart Essence'
+            return kPfx .. currSubCategory .. kSfx, 'Essence'
+          end
         elseif ziZone == 'Patch8_3' and (self.db.profile.groupPatch8_3) then
-          if
-            ziSubcat == 'Reputation' then
+          if ziSubcat == 'Reputation' then
             currSubCategory = 'Reputation'
             return kPfx .. currSubCategory.. kSfx, 'Current Rep Item'
-          elseif
-            ziSubcat == 'Visions' and (self.db.profile.groupVisions) then
+          elseif ziSubcat == 'Visions' and (self.db.profile.groupVisions) then
             currSubCategory = 'Visions'
-            return kPfx .. currSubCategory.. kSfx, kCategory
+            return kPfx .. currSubCategory.. kSfx, 'Visions'
+          elseif ziSubcat == 'Black' and (self.db.profile.groupBlack) then
+            currSubCategory = 'Black Empire'
+            return kPfx .. currSubCategory .. kSfx, 'Black Empire'
           else
             currSubCategory = 'Patch 8.3 Item'
             return kPfx .. currSubCategory.. kSfx, 'Patch 8.3 Item'
