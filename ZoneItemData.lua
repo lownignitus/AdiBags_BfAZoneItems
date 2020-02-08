@@ -81,6 +81,7 @@ addon.ZONE_ITEMS = {
   "167911^Nazjatar^^Just Regular Butter", 
   "170512^Nazjatar^^Lesser Benthic Arcanocrystal", 
   "170547^Nazjatar^^Mardivas's Arcane Cache Key", 
+  "170477^Nazjatar^^Mardivas's Universally Lauded Tote", 
   "168161^Nazjatar^^Molted Shell", 
   "170085^Nazjatar^Reputation^Naga Deployment Orders", 
   "170153^Nazjatar^^Ominous Looking Tome", 
@@ -149,5 +150,8 @@ addon.ZONE_ITEMS = {
   "167788^Patch8_3^^Detoxifying Vial", 
   "173888^Patch8_3^^Shard of Self Sacrifice", 
   "175150^Patch8_3^^Self-Shaping Amber", 
-  "167027^Patch8_3^^Portable Clarity Beam"
+  "167027^Patch8_3^^Portable Clarity Beam", 
+  "173363^Patch8_3^Visions^Vessel of Horrific Visions",
+  "174504^Patch8_3^Reputation^Proudmoore War Copper", 
+  "174502^Patch8_3^Reputation^Tear of Azeroth" 
 }

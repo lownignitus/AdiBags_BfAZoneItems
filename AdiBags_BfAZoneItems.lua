@@ -81,11 +81,17 @@ function setFilter:GetOptions()
           type = 'toggle',
           order = 30,
         },
+        groupVisions = {
+          name = L['Visions'],
+          desc = L['Group items for Visions.'],
+          type = 'toggle',
+          order = 31,
+        },
         zonePriority = {
           name = L['Current Zone First'],
           desc = L['Group current zone\'s items first in bags.'],
           type = 'toggle',
-          order = 31,
+          order = 32,
         },
       }
     },
@@ -104,8 +110,11 @@ function setFilter:Filter(slotData)
   if self.db.profile.groupPatch8_3 then
     addon:SetCategoryOrder('Patch 8.3',30)
   end
+  if self.db.profile.groupVisions then
+    addon:SetCategoryOrder('Visions',31)
+  end
   if self.db.profile.zonePriority then
-    addon:SetCategoryOrder('Current Zone Item',31)
+    addon:SetCategoryOrder('Current Zone Item',32)
   end
     -- Exit if profile not enabled
   if (self.db.profile.enableZoneItem == false) or (slotData.itemId == false) then 
@@ -140,9 +149,18 @@ function setFilter:Filter(slotData)
           currSubCategory = 'Benthic'
           return kPfx .. currSubCategory.. kSfx, kCategory
         elseif ziZone == 'Patch8_3' and (self.db.profile.groupPatch8_3) then
-          currSubCategory = 'Patch 8.3 Item'
-          return kPfx .. currSubCategory.. kSfx, 'Patch 8.3 Item'
-  
+          if
+            ziSubcat == 'Reputation' then
+            currSubCategory = 'Reputation'
+            return kPfx .. currSubCategory.. kSfx, 'Current Rep Item'
+          elseif
+            ziSubcat == 'Visions' and (self.db.profile.groupVisions) then
+            currSubCategory = 'Visions'
+            return kPfx .. currSubCategory.. kSfx, kCategory
+          else
+            currSubCategory = 'Patch 8.3 Item'
+            return kPfx .. currSubCategory.. kSfx, 'Patch 8.3 Item'
+          end
         elseif ziZone == 'Nazjatar'  or ziZone == 'Mechagon' then
           if (self.db.profile.groupRepItems) and ziSubcat=='Reputation' then
             currSubCategory = 'Reputation'
